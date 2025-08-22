@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بطاقتي الشخصية</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 35px 25px;
+      border-radius: 25px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 5px solid #007bff;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #222;
+    }
+    p {
+      color: #555;
+      margin: 4px 0;
+      font-size: 14px;
+    }
+    .social-links a {
+      margin: 0 6px;
+      color: #007bff;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .social-links a:hover {
+      color: #c33764;
+      transform: scale(1.2);
+    }
+    .qrcode {
+      margin-top: 15px;
+    }
+    .qrcode canvas {
+      width: 100px !important;
+      height: 100px !important;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 18px;
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.3s;
+      font-size: 14px;
+    }
+    .btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="card">
+    <img src="https://i.pravatar.cc/160?img=12" alt="Avatar" class="avatar">
+    <h1>أحمد مثال</h1>
+    <p>مطور ويب</p>
+    <p>📞 +213 700 000 000</p>
+    <p>📧 example@email.com</p>
+
+    <div class="social-links">
+      <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+    </div>
+
+    <div class="qrcode">
+      <canvas id="qrcode"></canvas>
+      <p style="font-size:13px;">📲 امسح QR-Code لحفظ بياناتي</p>
+    </div>
+
+    <a id="downloadBtn" class="btn" download="contact.vcf">⬇️ تحميل بياناتي</a>
+  </div>
+
+  <script>
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Ahmed Example
+ORG:Web Developer
+TEL;TYPE=CELL:+213700000000
+EMAIL:example@email.com
+URL:https://facebook.com/
+END:VCARD`;
+
+    QRCode.toCanvas(document.getElementById("qrcode"), vcard, { width: 100, margin: 1 }, function (error) {
+      if (error) console.error(error)
+    });
+
+    const blob = new Blob([vcard], { type: "text/vcard" });
+    const url = URL.createObjectURL(blob);
+    document.getElementById("downloadBtn").href = url;
+  </script>
+</body>
+</html>
